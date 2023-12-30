@@ -1,0 +1,234 @@
+/* (c) https://github.com/MontiCore/monticore */
+/* DOI: https://doi.org/10.5281/zenodo.5898204 */
+
+import java.time.ZonedDateTime;
+import java.net.URL;
+
+classdiagram PrivacyPolicyModel {
+
+  package cd { class PrivacyPolicy {
+    String name;
+    String vendorName;
+    ZonedDateTime dateOfCreation;
+    ZonedDateTime dateOfLastChange;
+    ZonedDateTime effectiveDate;
+    int minUserAge;
+    String version;
+    URL original;
+    String fullText;
+    String updatePolicies;
+  }
+
+  association PrivacyPolicy -> Region [*];
+  association PrivacyPolicy -> DataProcessing [*];
+
+  /*************************************************************************************************
+   * Regions
+   ************************************************************************************************/
+
+  class Region {
+    String name;
+  }
+
+  association Region -> Right [*];
+  association Region -> DataProtectionOfficer [0..1];
+  association Region -> Controller [1..*];
+
+  class DataProtectionOfficer {
+    String name;
+    String location;
+  }
+
+  association DataProtectionOfficer -> Contact [1];
+
+  class Controller {
+    String name;
+    String location;
+  }
+
+  association Controller -> Contact [1];
+  association Controller -> RepresentativePerson [0..1];
+
+  class RepresentativePerson {
+    String name;
+  }
+
+  association RepresentativePerson -> Contact [1];
+
+  class Contact {
+    String postalAddress;
+    List<String> electAddress;
+  }
+
+  class Right {
+	List<LawType> lawType;
+	Optional<String> law;
+    List<String> contact;
+  }
+
+  class RightToComplaint extends Right {
+    String supervisoryAuthorityContact;
+  }
+
+  /*************************************************************************************************
+   * DataProcessing in general
+   ************************************************************************************************/
+
+  class DataProcessing {
+    Actor actor;
+    List<Location> location;
+    String scenario;
+    Optional<String> description;
+  }
+
+  association DataProcessing -> Purpose [1..*];
+
+  class Purpose {
+    String description;
+    FormOfAgreement formOfAgreement;
+    List<String> revocationOptions;
+  }
+
+  association Purpose -> LegalBasis [1];
+  association Purpose -> DataEntry [*];
+  association Purpose -> DataCategory [*];
+
+  class LegalBasis {
+    LegalBasisType legalBasisType;
+    Optional<String> description;
+  }
+
+  class DataEntry {
+    String name;
+  }
+
+  class DataCategory {
+    String name;
+  }
+
+  association DataCategory -> DataEntry [*];
+  association DataCategory -> DataCategory [*];
+
+  /*************************************************************************************************
+   * Special forms of DataProcessing
+   ************************************************************************************************/
+
+  class CollectingData extends DataProcessing {
+    Optional<String> controller;
+  }
+
+  /************************************************************************************************/
+
+  class FurtherDataProcessing extends DataProcessing {
+    String kind;
+    Timing timing;
+  }
+
+  association FurtherDataProcessing -> AutomatedDecisionMaking [*];
+
+  class AutomatedDecisionMaking {
+    String involvedLogic;
+    String implications;
+  }
+
+  /************************************************************************************************/
+
+  class StoringData extends DataProcessing {
+    Optional<String> storeForFixedPeriod;
+    Optional<String> storeUntilEvent;
+    Optional<String> protectiveMeasures;
+    String storageLocation;
+  }
+
+  /************************************************************************************************/
+
+  class TransmittingData extends DataProcessing {
+    Optional<String> concreteRecipient;
+    List<RecipientType> recipientTypes;
+    List<Location> recipientLocation;
+    boolean commissionedDataProcessing;
+    String protectionMeasures;
+    Timing timing;
+	Optional<String> safeguardsForRegions;
+  }
+
+  association TransmittingData -> RecipientRegion [*];
+
+  abstract class RecipientRegion {
+	List<String> countries;  
+	}
+
+  class EUCountryRecipient extends RecipientRegion {}
+
+  class AdequacyDecisionCountryRecipient extends RecipientRegion {}
+
+  class OtherCountryRecipient extends RecipientRegion {}
+
+  /************************************************************************************************/
+
+  class DeletingData extends DataProcessing {}
+
+  /*************************************************************************************************
+   * Enumerations
+   ************************************************************************************************/
+
+  enum LawType {
+    RIGHT_OF_ACCESS,
+    RESTRICTION_OF_PROCESSING,
+    OBJECTION_TO_PROCESSING,
+    RIGHT_TO_PORTABILITY,
+    WITHDRAW_CONSENT,
+    COMPLAINT,
+    CORRECTION,
+    DELETION,
+    OTHER;
+  }
+
+  enum LegalBasisType {
+    CONSENT,
+    LEGAL_LIABILITY,
+    CONTRACTUAL_LIABILITY,
+    LEGITIMATE_INTEREST,
+    OTHER,
+    NOT_APPLICABLE;
+  }
+
+  enum RecipientType {
+    USER,
+    MANUFACTURER,
+    EXTERNAL_RECIPIENT,
+    EXTERNAL_FRIENDS,
+    PLATFORM_FRIENDS,
+    PLATFORM_USER;
+  }
+
+  enum Location {
+    WEARABLE,
+    APP,
+    WEBSITE,
+    MANUFACTURER_INFRASTRUCTURE,
+    THIRDPARTY_INFRASTRUCTURE;
+  }
+
+  enum Actor {
+    USER,
+    MANUFACTURER,
+    EXTERNAL_DATA_PROVIDER,
+    EXTERNAL_DATA_RECIPIENT;
+  }
+
+  enum Timing {
+    CONTINUOUS,
+    EVENT_BASED,
+    NOT_SPECIFIED;
+  }
+
+  enum FormOfAgreement {
+    OPTIONAL,
+    MANDATORY_FOR_FUNCTION,
+    MANDATORY,
+    NOT_APPLICABLE;
+  }
+
+  }
+}

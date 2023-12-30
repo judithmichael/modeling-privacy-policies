@@ -1,0 +1,1005 @@
+import PrivacyPolicyModel.*;
+
+objectdiagram FitBit_DSE {
+
+	// ----------------- General Information -------------------------------------------------
+
+	@FitBit:PrivacyPolicy {
+		name="Fitbit Privacy Policy";
+		validFrom="June 6, 2023";
+		url="https://www.fitbit.com/global/us/legal/privacy-policy";
+		age="13";
+	};
+	
+	link @FitBit -> @FitBitRegion;
+	link @FitBit -> @collectingConnectWithFriends;
+	link @FitBit -> @collectionAccInfo;
+	link @FitBit -> @collectionAccountInfo;
+	link @FitBit -> @collectionLiveCoaching;
+	link @FitBit -> @collectingDataEmployersInsurance;
+	link @FitBit -> @collectingDataFitBitInteraction;
+	link @FitBit -> @collectingDataGeolocationInfo;
+	link @FitBit -> @collectingDataInfoFromThirdParties;
+	link @FitBit -> @collectingDataMetricCalculation;
+	link @FitBit -> @collectingDataPaymentWithWearable;
+	link @FitBit -> @collectingDataProtection;
+	link @FitBit -> @collectingDataPurchasingDevices;
+	link @FitBit -> @collectingDataUsageInfo;
+	link @FitBit -> @storingDataPaymentConvenience;
+	link @FitBit -> @transmittingDataChallenge;
+	link @FitBit -> @transmittingDataExternalProcessing;
+	link @FitBit -> @transmittingDataHandlingPaymentTransaction;
+	link @FitBit -> @transmittingDataSharingWithGoogle;
+	link @FitBit -> @transmittingDataSynchronization;
+	link @FitBit -> @transmittingDataToEmployer;
+	link @FitBit -> @deletingDataConnectWithFriends;
+	
+	@FitBitRegion:Region{
+		name="EEA, UK, or Switzerland";
+	};
+	
+	@dPO:DataProtectionOfficer{
+		name="Fitbit International Limited";
+		location="IRL";
+	};
+	
+	link @FitBitRegion -> @dPO;
+	
+	@contactDPO:Contact{
+		postalAddress="76 Lower Baggot Street Dublin 2, Ireland";
+		electronicContact=["data-protection-office@fitbit.com"];
+	};
+	
+	link @dPO -> @contactDPO;
+	
+	
+	@controller:Controller{
+		name="Fitbit International Limited Attn: Legal Department (Privacy Policy)";
+		location="IRL";
+	};
+	
+	@controllerContact:Contact{
+		postalAddress="76 Lower Baggot Street Dublin 2, Ireland";
+		electronicContact=["privacy@fitbit.com"];
+	};
+	
+	link @controller -> @controllerContact;
+	
+	
+	@right1:Right {
+		lawTypes=[RIGHT_OF_ACCESS, RIGHT_TO_PORTABILITY];
+		law="GDPR";
+		description=" By logging into your account, you can access much of your personal information, including your dashboard with your daily exercise and activity statistics. Using your account settings, you can also download information in a commonly used file format, including data about your activities, body, foods, and sleep.";
+	};
+	
+	@right2:Right {
+		lawTypes=[CORRECTION, DELETION];
+		law="GDPR";
+		description="By logging into your account and using your account settings, you can change and delete your personal information. For instance, you can edit or delete the profile data you provide and delete your account if you wish. Learn more";
+	};
+	
+	@right3:Right {
+		lawTypes=[OBJECTION_OF_PROCESSING];
+		law="GDPR";
+		description="We give you account settings and tools to control our data use. For example, through your privacy settings, you can limit how your information is visible to other users of the Services; using your notification settings, you can limit the notifications you receive from us; and under your application settings, you can revoke the access of third-party applications that you previously connected to your Fitbit account. You can also use the Fitbit application to unpair your device from your account at any time.";
+	};
+	
+	@right4:RightOfComplaint{
+		lawTypes=["RIGHT_OF_COMPLAINT"];
+		law="GDPR";
+		supervisoryAuthorityContact="https://edpb.europa.eu/about-edpb/about-edpb/members_en";
+	};
+	
+	link @FitBitRegion -> @right1;
+	link @FitBitRegion -> @right2;
+	link @FitBitRegion -> @right3;
+	link @FitBitRegion -> @right4;
+	
+	// ----------------- PROCESSING INFORMATION ----------------------------------------------
+	// ----------------- ACCOUNT INFORMATION -------------------------------------------------
+
+	@dataCategoryAccInfo:DataCategory{
+		name="ACCOUNT INFORMATION";
+	};
+	
+	@dataName:DataEntry{
+		name="Name";
+	};
+	
+	@dataEmai:DataEntry{
+		name="Email Address";
+	};
+	@dataPW:DataEntry{
+		name="Password";
+	};
+	@dataBirthDate:DataEntry{
+		name="Date of Birth";
+	};
+	@dataGender:DataEntry{
+		name="Gender";
+	};
+	@dataHeight:DataEntry{
+		name="Height";
+	};
+	@dataWeight:DataEntry{
+		name="Weight";
+	};
+	@dataPhone:DataEntry{
+		name="Mobile telephone number";
+	};
+	
+	link @dataCategoryAccInfo -> @dataName;
+	link @dataCategoryAccInfo -> @dataEmai;
+	link @dataCategoryAccInfo -> @dataPW;
+	link @dataCategoryAccInfo -> @dataBirthDate;
+	link @dataCategoryAccInfo -> @dataGender;
+	link @dataCategoryAccInfo -> @dataHeight;
+	link @dataCategoryAccInfo -> @dataWeight;
+	link @dataCategoryAccInfo -> @dataPhone;
+	
+	@purposeAccCreation:Purpose{
+		description="To create an account with FitBit.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Account Deletion"];
+	};
+	
+	link @purposeAccCreation -> @dataCategoryAccInfo;
+	
+	@legalBasis1:LegalBasis {
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	link @purposeAccCreation -> @dataCategoryAccInfo;
+	
+	@purposeContact:Purpose{
+		description="To send you Service notifications and respond to you when you contact us.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Requesting deletion."];
+	};
+	link @purposeContact -> @dataCategoryAccInfo;
+	@legalBasiContact:LegalBasis {
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	link @purposeContact -> @legalBasiContact;
+	
+	@purposeContactAdvertisement:Purpose{
+		description="To send you Service notifications and respond to you when you contact us. We also use your information to promote new features or products that we think you would be interested in.";
+		formOfAgreement=OPTIONAL;
+		revocationOptions=["You can control marketing communications and most Service notifications by using your notification preferences in account settings or via the “Unsubscribe” link in an email."];
+	};
+	link @purposeContactAdvertisement -> @dataCategoryAccInfo;
+	
+	@legalBasisContactAdvertisement:LegalBasis {
+		legalBasisType=LEGIMITATE_INTEREST;
+	};
+	
+	link @purposeContactAdvertisement -> @legalBasisContactAdvertisement;
+	
+	
+	@dataProfilePhoto:DataEntry{
+		name="Profile photo";
+	};
+	@dataBio:DataEntry{
+		name="Biography";
+	};
+	@dataCountry:DataEntry{
+		name="Country Information";
+	};
+	@dataUsername:DataEntry{
+		name="Community Username";
+	};
+	
+	@purposeOptAccCreation:Purpose{
+		description="Optional for Account Creation";
+		formOfAgreement=OPTIONAL;
+		revocationOptions=["Account Deletion"];
+	};
+	
+	link @purposeOptAccCreation -> @dataProfilePhoto;
+	link @purposeOptAccCreation -> @dataBio;
+	link @purposeOptAccCreation -> @dataCountry;
+	link @purposeOptAccCreation -> @dataUsername;
+	
+	// on switch to google ThirdParty Infr
+	@collectionAccountInfo:CollectingData{
+		actor=USER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Account creation.";
+	};
+	
+	link @collectionAccountInfo -> @purposeAccCreation; 
+	link @collectionAccountInfo -> @purposeOptAccCreation; 
+	link @collectionAccountInfo -> @purposeContact; 
+	link @collectionAccountInfo -> @purposeContactAdvertisement; 
+	
+	// ----------------- ADDITIONAL INFORMATION -------------------------------------------------
+	
+	@dataCategoryAdditionalInfo:DataCategory{
+		name="Additional Information";
+	};
+	@dataEntryLogsFood:DataEntry {
+		name="Logs for food";
+	};
+	@dataEntryLogsWeight:DataEntry {
+		name="Logs for weight";
+	};
+	@dataEntryLogsSleep:DataEntry {
+		name="Logs for sleep";
+	};
+	@dataEntryLogsWater:DataEntry {
+		name="Logs for water";
+	};
+	@dataEntryAlarm:DataEntry {
+		name="Alarm";
+	};
+	@dataEntryFemaleHealth:DataEntry {
+		name="Female health tracking";
+	};
+	@dataMessagesBoards:DataEntry {
+		name="Messages on discussion boards";
+	};
+	@dataMessagesFriends:DataEntry {
+		name="Messages to friends on the Services";
+	};
+	
+	link @dataCategoryAdditionalInfo -> @dataEntryLogsFood;
+	link @dataCategoryAdditionalInfo -> @dataEntryLogsWater;
+	link @dataCategoryAdditionalInfo -> @dataEntryLogsWeight;
+	link @dataCategoryAdditionalInfo -> @dataEntryLogsSleep;
+	link @dataCategoryAdditionalInfo -> @dataEntryAlarm;
+	link @dataCategoryAdditionalInfo -> @dataEntryFemaleHealth;
+	link @dataCategoryAdditionalInfo -> @dataMessagesBoards;
+	link @dataCategoryAdditionalInfo -> @dataMessagesFriends;
+	
+	@purposeImproveExpr:Purpose{
+		description="To help improve your experience or enable certain features of the Services, you may choose to provide us with additional information.";
+		formOfAgreement=OPTIONAL;
+		revocationOptions=["Not providing these information."];
+	};
+	
+	link @purposeImproveExpr -> @dataCategoryAdditionalInfo;
+	
+	@legalBasisImproveExpr:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+	}; 
+	
+	link @purposeImproveExpr -> @legalBasisImproveExpr;
+	
+	@purposeInferences:Purpose{
+		description="To make inferences and show you more relevant content. ";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Not providing these information."];
+	};
+	
+	link @purposeInferences -> @dataCategoryAdditionalInfo;
+	
+	@legalBasisInferences:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+	}; 
+	
+	link @purposeInferences -> @legalBasisInferences;
+	
+	
+	@collectionAccInfo:CollectingData{
+		actor=USER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Providing FitBit with additional features."; 
+	};
+	
+	link @collectionAccInfo -> @purposeImproveExpr;
+	link @collectionAccInfo -> @purposeInferences;
+	
+	--------------------------
+	
+	@dataEntryFriendsMail:DataEntry {
+		name="Friends' E-Mail Addresses";
+	};
+	@dataEntrySocialNetwork:DataEntry {
+		name="Social network accounts";
+	};
+	
+	@dataEntryContactList:DataEntry{
+		name="Contact list on mobile device";
+	};
+	
+	@purposeConnectWithFriends:Purpose{
+		description="You may also connect with friends on the Services or invite friends who have not yet joined.";
+		formOfAgreement=CONSENT;
+		revocationOptions=["FitBit does not store your contact list and deletes it after it is used for adding contacts as friends."];
+	};
+	
+	@legalBasisConnectWithFriends: LegalBasis{
+		legalBasisType=CONSENT;
+	};
+	
+	link @purposeConnectWithFriends -> @legalBasisConnectWithFriends;
+	
+	@collectingConnectWithFriends: CollectingData{
+		actor=USER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Providing friends' email addresses, accessing social networking accounts, or using the contact list on your mobile device."; 
+	};
+	
+	link @collectingConnectWithFriends -> @purposeConnectWithFriends;
+	
+	@deletingDataConnectWithFriends: DeletingData{
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="FitBit deletes information for adding contacts as friends after it is used."; 
+	};
+	
+	link @deletingDataConnectWithFriends -> @purposeConnectWithFriends;
+	
+
+	@dataCategoryContactingFitBit:DataCategory{
+		name="Interaction with FitBit";
+	};	
+	
+	@dataEntryContactInfo:DataEntry {
+		name="Contact Information";
+	};
+	@dataEntryMessage:DataEntry {
+		name="Messages to FitBit";
+	};
+	
+	link @dataCategoryContactingFitBit -> @dataName;
+	link @dataCategoryContactingFitBit -> @dataEntryContactInfo;
+	link @dataCategoryContactingFitBit -> @dataEntryMessage;
+	
+	@purposeFitBitInteraction:Purpose{
+		description="If you contact us or participate in a survey, contest, or promotion, we collect the information you submit.";
+		formOfAgreement=CONTRACTUAL_LIABILITY;
+		revocationOptions=["Not interacting with FitBit or requesting data deletion."];
+	};
+	
+	@collectingDataFitBitInteraction:DataCollection{
+		actor=USER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="If you contact FitBit or participate in a survey, contest, or promotion."; 
+	};
+	
+	// ----------------- PAYMENT AND CARD INFORMATION -------------------------------------------------
+	
+	@dataCategoryPaymentInfo:DataCategory{
+		name="Payment with Wearable";
+	};
+	@dataEntryCardNumber:DataEntry {
+		name="Credit, Debit or other card number";
+	};
+	@dataEntryCardExpiration:DataEntry {
+		name="Card expiration date";
+	};
+	@dataEntryCardCVVCode:DataEntry {
+		name="CVV code";
+	};
+	
+	@dataEntryCardIssuer:DataEntry {
+		name="Card issuer's name";
+	};
+	
+	link @dataCategoryPaymentInfo -> @dataEntryCardNumber;
+	link @dataCategoryPaymentInfo -> @dataEntryCardExpiration;
+	link @dataCategoryPaymentInfo -> @dataEntryCardCVVCode;
+	link @dataCategoryPaymentInfo -> @dataEntryCardIssuer;
+	
+	@purposePaymentWithWearable:Purpose{
+		description="Some Fitbit devices support payments and transactions with third parties. If you activate this feature, you must provide certain information for identification and verification.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["You can remove the token from your account using your account settings"];
+	};
+	
+	link @purposePaymentWithWearable -> @dataCategoryPaymentInfo;
+	
+	@legalBasisPaymentWithWearable:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	link @purposePaymentWithWearable -> @legalBasisPaymentWithWearable;
+	
+	@collectingDataPaymentWithWearable:CollectingData{
+		actor=USER;
+		location=[WEARABLE,APP,MANUFACTURER_INFRASTRUCTURE];
+		scenario="Activating Device Payment Feature.";
+	};
+	
+	link @collectingDataPaymentWithWearable -> @purposePaymentWithWearable;
+	
+	@purposeHandlingPaymentTransactions:Purpose{
+		description="Handling concrete payment transactions.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Remove token from your account.","Stop using payment service."];
+	};
+	
+	@legalBasisHandlingPaymentTransactions:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	link @legalBasisHandlingPaymentTransactions -> @purposeHandlingPaymentTransactions;
+	
+	@transmittingDataHandlingPaymentTransaction:TransmittingData{
+		actor=MANUFACTURER;
+		location=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Concrete payment transaction.";
+		concreteRecipient="Card network.";
+		recipientTypes=[EXTERNAL_RECEIVER];
+		recipientLocation=[THIRDPARTY_INFRASTRUCTURE];
+		commissionedDataProcessing=true;
+		protectionMeasure="This information is encrypted.";
+		timing=EVENT_BASED;
+	};
+	
+	link @transmittingDataHandlingPaymentTransaction -> @purposeHandlingPaymentTransactions;
+	
+	// Discussion: Recipient region unknown since it depends on card network
+	
+	@purposePaymentConvenience:Purpose{
+		description="For your convenience.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions="Revoke payment service.";
+	};
+	
+	@legalBasisPaymentConvenience:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+	};
+	
+	link @purposePaymentConvenience -> @legalBasisPaymentConvenience;
+	
+	@storingDataPaymentConvenience:StoringData{
+		actor=MANUFACTURER;
+		location=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Usuing payment Service.";
+		storeUntilEvent="Revocation.";
+	};
+	
+	link @storingDataPaymentConvenience -> @purposePaymentConvenience;
+	
+	// Discussion: revocing options not explicitly mentioned; also not explicit location has to be guessed
+	// remove StorageLocation from Model; probably Irland in this case
+	// Discussion: keine Sachen abbildbar, die  nicht gemacht werden : "We do not store this payment information"
+	
+	
+	@dataEntryBillingAddress:DataEntry{
+		name="Billing address";
+	};
+	@dataEntryShippingAddress:DataEntry{
+		name="Shipping address";
+	};
+	
+	@purposePurchasingDevices:Purpose{
+		description="If you purchase Fitbit merchandise on our website, you provide information.";
+		formOfAgreement=CONTRACTUAL_LIABILITY;
+		revocationOptions=["Aborting ordering process.","FitBit does not store this payment information."];
+	};
+	
+	link @purposePurchasingDevices -> @dataCategoryPaymentInfo;
+	link @purposePurchasingDevices -> @dataEntryShippingAddress;
+	link @purposePurchasingDevices -> @dataEntryBillingAddress;
+
+	
+	@legalBasisPurchasingDevices:LegalBasis{
+		legalBasisType="CONTRACTUAL_LIABILITY";
+	};
+	
+	link @purposePurchasingDevices -> @legalBasisPurchasingDevices;
+	
+	@collectingDataPurchasingDevices:CollectingData{
+		actor=USER;
+		location=[WEBSITE];
+		scenario="Purchasing a FitBit device.";
+	};
+	
+	link @collectingDataPurchasingDevices -> @purposePurchasingDevices;
+	
+	
+	// ----------------- LIVE COACHING SERVICES -------------------------------------------------
+	
+	@dataEntryPlan:DataEntry{
+		name="Coaching plan";
+	};
+	@dataEntryGoals:DataEntry{
+		name="Coaching goals";
+	};
+	@dataEntryAction:DataEntry{
+		name="Coaching action";
+	};
+	@dataEntryCalendarEvents:DataEntry{
+		name="Calendar events";
+	};
+	@dataEntryCommunications:DataEntry{
+		name="Communication with coach";
+	};
+	@dataEntryNotes:DataEntry{
+		name="Notes by coach";
+	};
+	@dataEntryOtherInfo:DataEntry{
+		name="Other information submitted by you or coach";
+	};
+	
+	@dataCategoryLiveCoachingServices:DataCategory{
+		name="Data for Live Coaching Services";
+	};
+	
+	link @dataCategoryLiveCoachingServices -> @dataEntryPlan;
+	link @dataCategoryLiveCoachingServices -> @dataEntryGoals;
+	link @dataCategoryLiveCoachingServices -> @dataEntryAction;
+	link @dataCategoryLiveCoachingServices -> @dataEntryCalendarEvents;
+	link @dataCategoryLiveCoachingServices -> @dataEntryCommunications;
+	link @dataCategoryLiveCoachingServices -> @dataEntryNotes;
+	link @dataCategoryLiveCoachingServices -> @dataEntryOtherInfo;
+	
+	@purposeLiveCoaching:Purpose{
+		description="Tto connect you with coaches, allow you to communicate with them through our Services, and help you achieve your goals to lead a healthier, more active life.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Stop using these services."];
+	};
+	
+	link @purposeLiveCoaching -> @dataCategoryLiveCoachingServices;
+	
+	@collectionLiveCoaching:DataCollection{
+		actor=USER;
+		locations=[APP, WEARABLE];
+		scenario="Using FitBit's Live Coaching Services.";
+	};
+	
+	link @collectionLiveCoaching -> @purposeLiveCoaching;
+	
+	
+	
+	// ----------------- INFORMATION WE RECEIVE FROM YOUR USE OF OUR SERVICES -------------------------------------------------
+	// ----------------- DEVICE INFORMATION -------------------------------------------------
+	
+	@dataCategoryMetrics:DataCategory{
+		name="Metrics";
+	};
+	@dataEntrySteps:DataEntry{
+		name="Number of steps";
+	};
+	@dataEntryDistance:DataEntry{
+		name="Travelled distance";
+	};
+	@dataEntryCalories:DataEntry{
+		name="Calories burned";
+	};
+	@dataEntryHearRate:DataEntry{
+		name="Heart rate";
+	};
+	@dataEntrySleepStages:DataEntry{
+		name="Sleep stages";
+	};
+	@dataEntryActiveMin:DataEntry{
+		name="Active minutes";
+	};
+	@dataEntryLocation:DataEntry{
+		name="Location";
+	};
+
+	link @dataCategoryMetrics -> @dataWeight;
+	link @dataCategoryMetrics -> @dataEntrySteps;
+	link @dataCategoryMetrics -> @dataEntryDistance;
+	link @dataCategoryMetrics -> @dataEntryCalories;
+	link @dataCategoryMetrics -> @dataEntryHearRate;
+	link @dataCategoryMetrics -> @dataEntrySleepStages;
+	link @dataCategoryMetrics -> @dataEntryActiveMin;
+	link @dataCategoryMetrics -> @dataEntryLocation;
+	
+	@purposeMetricEstimation:Purpose{
+		description="Calculating metrics.";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Requesting data deletion."];
+	};
+	
+	@legalBasisMetricEstimation:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	link @purposeMetricEstimation -> @legalBasisMetricEstimation;
+	
+	@collectingDataMetricCalculation:CollectingData{
+		actor=MANUFACTURER;
+		locations=[WEARABLE];
+		scenario="Your device collects data to estimate a variety of metrics.";
+	};
+	
+	link @collectingDataMetricCalculation -> @purposeMetricEstimation;
+	
+	@purposeMetricSynchronization:Purpose{
+		description="Synchronization.";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Stop using FitBit services."];
+	};
+	
+	@legalBasisSynchronization:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	link @purposeMetricSynchronization -> @legalBasisSynchronization;
+	
+	@transmittingDataSynchronization:TransmittingData{
+		actor=USER;
+		locations=[WEARABLE];
+		scenario="When your device syncs with our applications or software, data recorded on your device is transferred from your device to our servers.";
+		concreteRecipient="FitBit International Limited";
+		recipientTypes=[MANUFACTURER];
+		recipientLocation=[MANUFACTURER_INFRASTRUCTURE];
+		commissionedDataProcessing=false;
+		intention=false;
+		timing=EVENT_BASED;
+	};
+	
+	link @transmittingDataSynchronization -> @purposeMetricSynchronization;
+	
+	
+	// ----------------- GEOLOCATION INFORMATION -------------------------------------------------
+
+	@dataCategoryGeoInfo:DataCategory{
+		name="Geolocation information";
+	};
+	
+	@dataEntryGPSSignal:DataEntry{
+		name="GPS Signal";
+	};
+	@dataEntryDeviceSensors:DataEntry{
+		name="Geolocation from device sensors";
+	};
+	@dataEntryWiFiAccess:DataEntry{
+		name="Wi-Fi access points";
+	};
+	@dataEntryCellTowerIDs:DataEntry{
+		name="Cell tower IDs";
+	};
+	@dataEntryIP:DataEntry{
+		name="IP Address";
+	};
+	
+	link @dataCategoryGeoInfo -> @dataEntryGPSSignal;
+	
+	@purposeGeolocationInfo:Purpose{
+		description="To use FitBit Services.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;	
+		revocationOptions=["Remove access using Fitbit device", "Remove access using Mobile device"];
+	};
+	
+	link @purposeGeolocationInfo -> @dataCategoryGeoInfo;
+	
+	@legalBasisGeolocationInfo:LegalBasis{
+		legalBasisType=CONSENT;
+	};
+	
+	link @purposeGeolocationInfo -> @legalBasisGeolocationInfo;
+	
+	@purposeGeolocationInfoPrecise:Purpose{
+		description="To provide and improve features of the Services such as recording where a workout took place or mapping an activity.";
+		formOfAgreement=MANDATORY;	
+		revocationOptions=["Delete FitBit account"];
+	};
+	
+	link @purposeGeolocationInfo -> @purposeGeolocationInfoPrecise;
+	
+	@legalBasisGeolocationInfoPrecise:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+	};
+	link @purposeGeolocationInfoPrecise -> @legalBasisGeolocationInfo;
+	
+	
+	@collectingDataGeolocationInfo:CollectingData{
+		actor=MANUFACTURER;
+		locations=[WEARABLE];
+		scenario="Using the FitBit device.";
+	};
+	
+	link @collectingDataGeolocationInfo -> @purposeGeolocationInfo;
+	link @collectingDataGeolocationInfo -> @purposeGeolocationInfoPrecise;
+	
+	// ----------------- USAGE INFORMATION -------------------------------------------------
+	
+	@dataCategoryUsageInfo:DataCategory{
+		name="Usage information";
+	};
+	
+	@dataEntryInteractionView:DataEntry{
+		name="View content";
+	};
+	@dataEntryInteractionSearch:DataEntry{
+		name="Search content";
+	};
+	@dataEntryInteractionInstall:DataEntry{
+		name="Install software or apps";
+	};
+	@dataEntryInteractionAccCreation:DataEntry{
+		name="Account creation";
+	};
+	@dataEntryInteractionLogIn:DataEntry{
+		name="Log in";
+	};
+	@dataEntryInteractionPairing:DataEntry{
+		name="Pairing of device";
+	};
+	@dataEntryInteraction:DataEntry{
+		name="Interactions with app on FitBit device";
+	};
+	
+	link @dataCategoryUsageInfo ->@dataEntryInteractionView;
+	link @dataCategoryUsageInfo ->@dataEntryInteractionSearch;
+	link @dataCategoryUsageInfo ->@dataEntryInteractionInstall;
+	link @dataCategoryUsageInfo ->@dataEntryInteractionAccCreation;
+	link @dataCategoryUsageInfo ->@dataEntryInteractionLogIn;
+	link @dataCategoryUsageInfo ->@dataEntryInteractionPairing;
+	link @dataCategoryUsageInfo ->@dataEntryInteraction;
+	
+	@purposeUsageInfo:Purpose{
+		description="To troubleshoot and protect against errors; perform data analysis and testing; conduct research and surveys; and develop new features and Services.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;	
+		revocationOptions=["Remove access using Fitbit device", "Remove access using Mobile device"];
+	};
+	
+	link @purposeUsageInfo -> @dataCategoryUsageInfo;
+	
+	@collectingDataUsageInfo:CollectingData{
+		actor=MANUFACTURER;
+		locations=[WEARABLE, WEBSITE, APP];
+		scenario="Using the FitBit device.";
+	};
+	
+	link @collectingDataUsageInfo -> @purposeUsageInfo;
+	
+	
+	@dataCategoryDeviceInfo:DataCategory{
+		name="Device/Computer Information";
+	};
+	@dataEntryBrowserType:DataEntry{
+		name="Browser Type";
+	};
+	@dataEntryLang:DataEntry{
+		name="Language";
+	};
+	@dataEntryOperatingSys:DataEntry{
+		name="Operating System";
+	};
+	@dataEntryDeviceInfo:DataEntry{
+		name=" Fitbit or mobile device information (including device and application identifiers)";
+	};
+	@dataEntryReferringWebpage:DataEntry{
+		name="Referring Webpage";
+	};
+	@dataEntryPagesVisited:DataEntry{
+		name="Pages Visited";
+	};
+	@dataEntryCookieInfo:DataEntry{
+		name="Cookie Information";
+	};
+	
+	link @dataCategoryDeviceInfo -> @dataEntryBrowserType;
+	link @dataCategoryDeviceInfo -> @dataEntryLang;
+	link @dataCategoryDeviceInfo -> @dataEntryOperatingSys;
+	link @dataCategoryDeviceInfo -> @dataEntryDeviceInfo;
+	link @dataCategoryDeviceInfo -> @dataEntryReferringWebpage;
+	link @dataCategoryDeviceInfo -> @dataEntryPagesVisited;
+	link @dataCategoryDeviceInfo -> @dataEntryCookieInfo;
+	link @dataCategoryDeviceInfo -> @dataCategoryGeoInfo;
+	
+	
+	@purposeProtection:Purpose{
+		description="To troubleshoot and protect against errors; perform data analysis and testing; conduct research and surveys; and develop new features and Services.";
+		formOfAgreement=MANDATORY;	
+		revocationOptions=["Stop using FitBit Services."];
+	};
+	link @purposeProtection -> @dataCategoryDeviceInfo;
+	
+	@legalBasisProtection:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+	};
+	link @purposeProtection -> @legalBasisProtection;
+	
+	@collectingDataProtection:CollectingData{
+		actor=MANUFACTURER;
+		locations=[WEARABLE, WEBSITE, APP];
+		scenario="Using the FitBit services.";
+	};
+	
+	// ----------------- INFORMATION WE RECEIVE FROM THIRD PARTIES -------------------------------------------------
+	
+	@dataEntryProfilePic:DataEntry{
+		name="Profile Picture";
+	};
+	@dataEntryAgeRange:DataEntry{
+		name="Age Range";
+	};
+	@dataEntryFriendList:DataEntry{
+		name="Friend List";
+	};
+	
+	@dataEntryActivityData:DataEntry{
+		name="Activity Data";
+	};
+	@dataEntryExerciseData:DataEntry{
+		name="Exercice Data";
+	};
+		
+	link @purposeCommunityFeature -> @dataEntryProfilePic;
+	link @purposeCommunityFeature -> @dataEntryAgeRange;
+	link @purposeCommunityFeature -> @dataEntryFriendList;
+	link @purposeCommunityFeature -> @dataEntryActivityData;
+	link @purposeCommunityFeature -> @dataEntryExerciseData;
+	
+	@purposeCommunityFeature:Purpose{
+		description="To help you find and connect with other users and to allow other users to find and connect with you.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;	
+		revocationOptions=["Removing access to other service."];
+	};
+	
+	@legalBasisCommunityFeature:LegalBasis{
+		legalBasisType=CONSENT;
+	};
+	
+	link @purposeCommunityFeature -> @collectingDataInfoFromThirdParties;
+	
+	@collectingDataInfoFromThirdParties:CollectingData{
+		actor=MANUFACTURER;
+		locations=[THIRDPARTY_INFRASTRUCTURE];
+		scenario="Using the FitBit device.";
+	};
+	
+	@purposeEmployersInsurance:Purpose{
+		description="To invite you to participate or determine your eligibility for particular benefits, such as discounts or free services.";
+		formOfAgreement=OPTIONAL;	
+		revocationOptions=["Using your Account Settings."];
+	};
+	@legalBasisEmployersInsurance:LegalBasis{
+		legalBasisType=CONSENT;
+	};
+	link @purposeEmployersInsurance -> @legalBasisEmployersInsurance;
+	
+	
+	link @purposeEmployersInsurance -> @dataName;
+	link @purposeEmployersInsurance -> @dataEmai;
+	link @purposeEmployersInsurance -> @dataPhone;
+	
+	@collectingDataEmployersInsurance:CollectingData{
+		actor=MANUFACTURER;
+		locations=[THIRDPARTY_INFRASTRUCTURE];
+		scenario="FitBit partnering with third parties, such as employers and insurance companies that offer Fitbit Services to their employees and customers.";
+	};
+	
+	@transmittingDataToEmployer:TransmittingData{
+		actor=USER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Giving a third-party application access to your account, or give your employer access to information when you choose to participate in an employee wellness program.";
+		recipientTypes=[EXTERNAL_RECIPIENT];
+		recipientLocation=[THIRDPARTY_INFRASTRUCTURE];
+		commissionedDataProcessing=false;
+		intention=true;
+		timing=EVENT_BASED;
+	};
+	
+	// ----------------- WHEN YOU AGREE OR DIRECT US TO SHARE -------------------------------------------------
+	
+	@dataEntryPostedMessages:DataEntry{
+		name="Posted Messages";
+	};
+	@dataEntryTotalSteps:DataEntry{
+		name="Total Steps in Challenge";
+	};
+	@dataEntryPersonalStats:DataEntry{
+		name="Personal Statistics";
+	};
+	@dataEntryAchievements:DataEntry{
+		name="Achievements";
+	};
+
+	@purposeCommunityFeaturesSharing:Purpose{
+		description="To use FitBit's community features like the forums, 7-day leaderboard, and other social tools.";
+		formOfAgreement=OPTIONAL;	
+		revocationOptions=["Account Settings."];
+	};
+	
+	link @purposeCommunityFeaturesSharing -> @dataEntryPostedMessages;
+	link @purposeCommunityFeaturesSharing -> @dataEntryTotalSteps;
+	link @purposeCommunityFeaturesSharing -> @dataEntryPersonalStats;
+	link @purposeCommunityFeaturesSharing -> @dataEntryAchievements;
+	
+	@legalBasisCommunityFeatureSharing:LegalBasis{
+		legalBasisType=CONSENT;
+	};
+	link @purposeCommunityFeaturesSharing -> @legalBasisCommunityFeatureSharing;
+	
+	@transmittingDataChallenge:TransmittingData{
+		actor=USER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Giving a third-party application access to your account, or give your employer access to information when you choose to participate in an employee wellness program.";
+		recipientTypes=[PLATFORM_USER, PLATFORM_FRIEND, EXTERNAL_FRIEND];
+		recipientLocation=[MANUFACTURER_INFRASTRUCTURE];
+		commissionedDataProcessing=false;
+		intention=false;
+		timing=EVENT_BASED;
+	};
+	
+	link @transmittingDataChallenge -> @purposeCommunityFeaturesSharing;
+	
+	// ----------------- FOR EXTERNAL PROCESSING -------------------------------------------------
+	
+	
+	@dataCategoryAllData:DataCategory{
+		name="All data";
+	};
+	
+	// Discussion not known which data relates to this sharing
+	
+	// Discussion manufacturers adhere to GDPR, but all use different structures in their pp
+	// each data collection is specifically linked to data but storage and deletion are only mentioned for all
+	// use our model to enforce each lifecylce step of data 
+	// Discussion: Not always so clear if I can revoke consent of a processing or have to stop using a service
+	// -> revocation also not clear 
+	// Discussion: Reception Areas not always so clear from PP oftentimes just generally stated in PP
+	
+	@purposeExternalProcessing:Purpose{
+		description="Partners provide FitBit with services globally, including for customer support, information technology, payments, sales, marketing, data analysis, research, and surveys.";
+		formOfAgreement=MANDATORY;	
+		revocationOptions=["Deleting Fibit Account."];
+	};
+	
+	link @purposeExternalProcessing -> @dataCategoryAllData;
+	
+	@legalBasisExternalProcessing:LegalBasis{
+		legalBasis=LEGIMITATE_INTEREST;
+	};
+	
+	link @purposeExternalProcessing -> @legalBasisExternalProcessing;
+	
+	@transmittingDataExternalProcessing:TransmittingData{
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="We transfer information to our corporate affiliates, service providers, and other partners who process it for us.";
+		recipientTypes=[EXTERNAL_RECEIVER];
+		recipientLocation=[THIRDPARTY_INFRASTRUCTURE];
+		commissionedDataProcessing=true;
+		intention=true;
+		timing=CONTINUOUS;
+	};
+	
+	link @transmittingDataExternalProcessing -> @purposeExternalProcessing;
+	
+	
+	// ----------------- FOR JOINT PROCESSING OF PROFILE INFORMATION -------------------------------------------------
+	
+	@dataCategoryLimitedInfo:DataCategory{
+		name="Limited Profile Information";
+	};
+	
+	link @dataCategoryLimitedInfo -> @dataName;
+	link @dataCategoryLimitedInfo -> @dataProfilePhoto;
+	link @dataCategoryLimitedInfo -> @dataEntryFriendList;
+	
+	@purposeSharingWithGoogle:Purpose{
+		description="To ensure our users can still view their friends lists (including where your friends move their service to Google), Fitbit and Google will share with each other limited profile information.";
+		formOfAgreement=MANDATORY;	
+		revocationOptions=["Deleting Fibit Account."];
+	};
+	
+	link @purposeSharingWithGoogle -> @dataCategoryLimitedInfo;
+	
+	@legalBasisSSharingWithGoogle:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	link @purposeSharingWithGoogle -> @legalBasisSSharingWithGoogle;
+	
+	@transmittingDataSharingWithGoogle:TransmittingData{
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="We transfer information to our corporate affiliates, service providers, and other partners who process it for us.";
+		concreteRecipient="Google";
+		recipientTypes=[EXTERNAL_RECEIVER];
+		recipientLocation=[THIRDPARTY_INFRASTRUCTURE];
+		commissionedDataProcessing=false;
+		intention=true;
+		timing=CONTINUOUS;
+	};
+	
+	@recipientCountry:EEACountryRecipients{
+		countries=[Ireland];
+	};
+	
+	link @transmittingDataSharingWithGoogle -> @purposeSharingWithGoogle;
+	
+}

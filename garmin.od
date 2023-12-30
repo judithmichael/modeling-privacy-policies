@@ -1,0 +1,941 @@
+import PrivacyPolicyModel.*;
+
+objectdiagram Garmin_DSE {
+
+	// ----------------- General Information -------------------------------------------------
+
+	@Garmin : PrivacyPolicy {
+		name="Privacy Policy for Garmin Connect and Compatible Garmin Devices";
+		validFrom="September 21, 2023";
+		url="https://www.garmin.com/en-GB/privacy/connect/policy/";
+		age=16;
+	};
+	
+	link @Garmin -> @GarminRegion;
+	link @Garmin -> @collectingDataAddingADevice;
+	link @Garmin -> @collectingDataCommunication;
+	link @Garmin -> @collectingDataCommunicationWithGarmin;
+	link @Garmin -> @collectingDataMonitoring;
+	link @Garmin -> @collectingDataSynchronization;
+	link @Garmin -> @furtherProcessingActivation;
+	link @Garmin -> @furtherProcessingConnectedToSupport;
+	link @Garmin -> @furtherProcessingMarketingInfo;
+	link @Garmin -> @furtherProcessingNotifyingCustomers;
+	link @Garmin -> @transmittingDataFitnessPal;
+	link @Garmin -> @transmittingDataLiveTrack;
+	link @Garmin -> @transmittingDataToCountries;
+	link @Garmin -> @transmittingDataToManu;
+	link @Garmin -> @transmittingDataToUser;
+	link @Garmin -> @storingData;
+	
+	
+	@GarminRegion : Region{
+		name="EEA, UK, or Switzerland";
+	};
+	
+	@dPO:DataProtectionOfficer{
+		name="Fitbit International Limited";
+		location="DE";
+	};
+	
+	link @GarminRegion -> @dPO;
+	
+	@contactDPO:Contact{
+		postalAddress="Beethovenstr. 1a, 97080 Würzburg, Germany";
+		electronicContact=["euprivacy@garmin.com"];
+	};
+	
+	link @dPO -> @contactDPO;
+	
+	
+	@controller:Controller{
+		name="Garmin Würzburg GmbH";
+		location="DE";
+	};
+	
+	@controllerContact:Contact{
+		postalAddress="Beethovenstr. 1a, 97080 Würzburg, Germany";
+	};
+	
+	link @controller -> @controllerContact;
+	
+	@right1:Right {
+		lawTypes=[RIGHT_OF_ACCESS, RIGHT_TO_PORTABILITY,CORRECTION, DELETION,OBJECTION_OF_PROCESSING];
+		law="GDPR";
+		description="You have the right to request access to and rectification or erasure of your personal data, data portability, restriction of processing of your personal data, the right to object to processing of your personal data,and the right to lodge a complaint with a supervisory authority. For more information about these rights, please visit the European Commission’s “My Rights” page relating to GDPR, which can be displayed in a number of languages.";
+	};
+	
+	@right2:RightOfComplaint{
+		lawTypes=["RIGHT_OF_COMPLAINT"];
+		law="GDPR";
+		supervisoryAuthorityContact="https://edpb.europa.eu/about-edpb/about-edpb/members_en";
+	};
+	
+	link @GarminRegion -> @right1;
+	link @GarminRegion -> @right2;
+	
+	// ----------------- PROCESSING INFORMATION ----------------------------------------------
+	// ----------------- ACCOUNT INFORMATION -------------------------------------------------
+	
+	@furtherProcessingMarketingInfo:FurtherProcessingData {
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Accepting to receive marketing information.";
+		kind="Using data";
+		timing=CONTINUOUS;
+	};
+	
+	@purposeMarketingInfo:Purpose{
+		description="Basis for marketing information";
+		formOfAgreement=OPTIONAL;
+		revocationOptions=["Settings in preferences.", "Link in mail"];
+	};
+	
+	@legalBasisMarketingInfo:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="To reduce marketing mails";
+	};
+	
+	link @furtherProcessingMarketingInfo -> @purposeMarketingInfo;
+	link @purposeMarketingInfo -> @legalBasisMarketingInfo;
+	
+	@marketing:DataCategory {
+		name=marketing;
+	};
+	
+	@locationViaIP:DataEntry{
+		name="Location over IP";
+	};
+	
+	@connectedWearables:DataEntry {
+		name="Connected Wearables";
+	};
+	
+	@subs:DataEntry{
+		name="Subscriptions";
+	};
+	
+	@mailaddress:DataEntry{
+		name="E-Mail Adress";
+	};
+	
+	link @marketing -> @locationViaIP;
+	link @marketing -> @connectedWearables;
+	link @marketing -> @subs;
+	link @marketing -> @mailaddress;
+	
+	link @purposeMarketingInfo -> @marketing;
+	
+	@purposeSendingMarketingInfo:Purpose{
+		description="Sending marketing information";
+		formOfAgreement=OPTIONAL;
+		revocationOptions=["Settings in preferences.", "Link in mail"];
+	};
+	
+	@legalBasisSendingMarketingInfo:LegalBasis{
+		legalBasisType=CONSENT;
+	};
+	
+	link @furtherProcessingMarketingInfo -> @purposeSendingMarketingInfo;
+	link @purposeSendingMarketingInfo -> @legalBasisSendingMarketingInfo;
+	
+	//--
+	@furtherProcessingConnectedToSupport:FurtherProcessingData{
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		kind="Using";
+		timing=CONTINUOUS;
+		scenario="Being connected to the support";
+	};
+	
+	@purposeConnectedToSupport:Purpose{
+		description="Connect support request with Garmin account";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=[];
+	};
+	
+	@legalBasisConnectedToSupport:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="Providing high quality support";
+	};
+	
+	link @furtherProcessingConnectedToSupport -> @purposeConnectedToSupport;
+	link @purposeConnectedToSupport -> @legalBasisConnectedToSupport;
+	
+	@accountData:DataCategory{
+		name="Account data";
+	};
+	
+	link @purposeConnectedToSupport -> @accountData;
+	
+	//-- 
+	
+	@collectingDataCommunication:CollectingData {
+		actor=USER;
+		locations=[APP, WEBSITE];
+		scenario="Communication with Garmin";
+	};
+	
+	@purposeCommunication:Purpose{
+		description="We use this information to provide you with customer and product support, to monitor the quality and types of customer and product support we provide to our customers, and to facilitate repairs, returns, or exchanges.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Not communicating with Garmin."];
+	};
+	
+	@legalBasisCommunication:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="Providing high quality support";
+	};
+	
+	link @collectingDataCommunication -> @purposeCommunication;
+	link @purposeCommunication -> @legalBasisCommunication;
+	
+	@contactData:DataCategory{
+		name="Contact Data";
+	};
+	
+	@name:DataEntry{
+		name="Name";
+	};
+	
+	@phoneNumber:DataEntry{
+		name="Phone number";
+	};
+	
+	@contactPreferences:DataEntry {
+		name="Contact preferences";
+	};
+	
+	@postalAddress:DataEntry {
+		name="Postal address";
+	};
+	
+	link @contactData -> @name;
+	link @contactData -> @phoneNumber;
+	link @contactData -> @postalAddress;
+	link @contactData -> @mailaddress;
+	link @contactData -> @contactPreferences;
+	
+	link @purposeCommunication -> @contactData;
+	
+	@productInfo:DataEntry{
+		name="Product information";
+	};
+	
+	@serialNumber:DataEntry{
+		name="Serial number";
+	};
+	
+	@dateOfPurchase:DataEntry{
+		name="Date of purchase";
+	};
+	
+	link @purposeCommunication -> @productInfo;
+	link @purposeCommunication -> @serialNumber;
+	link @purposeCommunication -> @dateOfPurchase;
+	
+	//--
+	
+	@furtherProcessingNotifyingCustomers:FurtherProcessingData{
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		kind="Use";
+		timing=ONCE;
+		scenario="Notifying customers";
+	};
+	
+	@purposeNotifyingCustomers:Purpose{
+		description="Notifying customers that violated our terms of service";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Not using Garmin device"];
+	};
+	
+	@legalBasisNotifyingCustomers:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="Ensuring a quality experience for all customers and ensuring adherence to our terms.";
+	};
+	
+	link @furtherProcessingNotifyingCustomers -> @purposeNotifyingCustomers;
+	link @purposeNotifyingCustomers -> @legalBasisNotifyingCustomers;
+	
+	link @purposeNotifyingCustomers -> @mailaddress;
+
+	//--
+	
+	@collectingDataCommunicationWithGarmin:CollectingData{
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Communication with Garmin";
+	};
+	
+	@purposeCommunicationWithGarmin:Purpose{
+		description="We use this information to provide you with customer and product support, to monitor the quality and types of customer and product support we provide to our customers, and to facilitate repairs, returns, or exchanges.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Not communicating with Garmin"];
+	};
+	
+	@legalBasisCommunicationWithGarmin:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="Providing high quality support";
+	};
+	
+	link @collectingDataCommunicationWithGarmin -> @purposeCommunicationWithGarmin;
+	link @purposeCommunicationWithGarmin -> @legalBasisCommunicationWithGarmin;
+	
+	@eventProtocols:DataEntry{
+		name="Event protocols";
+	};
+	
+	@supportServiceIssueInfo:DataEntry{
+		name="Information related to support or service issues"; 
+	};
+	
+	@customerServiceConversation:DataEntry{
+		name="Customer service conversations";
+	};
+	
+	@customerSurveys:DataEntry{
+		name="Customer surveys";
+	};
+	
+	link @purposeCommunicationWithGarmin -> @eventProtocols; 
+	link @purposeCommunicationWithGarmin -> @supportServiceIssueInfo; 
+	link @purposeCommunicationWithGarmin -> @customerServiceConversation; 
+	link @purposeCommunicationWithGarmin -> @customerSurveys;
+
+	//--
+	
+	@collectingDataAddingADevice:CollectingData{
+		actor=USER;
+		locations=[APP, WEBSITE];
+		scenario="Adding a specific Garmin device to your Garmin account";
+	};
+	
+	@purposeCalorieConsumption:Purpose{
+		description="To calculate the calories you burn during an activity, and to set your wearable device to “do not disturb” mode during your normal sleep hours";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["By removing your device from your account and deleting this information from your profile."];		
+	};
+	
+	@legalBasisAddingDevice:LegalBasis{
+		legalBasisType=CONSENT;
+		description="The legal ground for processing this information for these purposes is your consent.";
+	};
+	
+	link @collectingDataAddingADevice -> @purposeCalorieConsumption;
+	link @purposeCalorieConsumption -> @legalBasisAddingDevice;
+	
+	@purposeActivity:Purpose{
+		description="To provide you insights about your activities and sleep";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["By removing your device from your account and deleting this information from your profile."];
+	};
+	
+	link @collectingDataAddingADevice -> @purposeActivity;
+	link @purposeActivity -> @legalBasisAddingDevice;
+	
+	@purposeAccountLinking:Purpose{
+		description="We process your device information to associate your device to your account.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["By removing your device from your account and deleting this information from your profile."];
+	};
+	
+	link @collectingDataAddingADevice -> @purposeAccountLinking;
+	link @purposeAccountLinking -> @legalBasisAddingDevice;
+	
+	@deviceInfo:DataCategory{
+		name="Device information";
+	};
+	
+	@deviceIdentifier:DataEntry{
+		name="Device identifier";
+	};
+	
+	link @deviceInfo -> @deviceIdentifier;
+	
+	link @purposeAccountLinking -> @deviceInfo;
+	
+	@additionalProfileInformation:DataCategory {
+		name="Additional profile information";
+	};
+	
+	@gender:DataEntry{
+		name="Gender";
+	};
+	@height:DataEntry{
+		name="Height";
+	};
+	@weight:DataEntry{
+		name="Weight";
+	};
+	@birthdate:DataEntry{
+		name="Birthdate";
+	};
+	@activityLevel:DataEntry{
+		name="Activity Level";
+	};
+	@normalBedTime:DataEntry{
+		name="Normal bed time";
+	};
+	@wakeTime:DataEntry{
+		name="Wake time";
+	};
+	
+	link @additionalProfileInformation -> @gender;
+	link @additionalProfileInformation -> @height;
+	link @additionalProfileInformation -> @weight;
+	link @additionalProfileInformation -> @birthdate;
+	link @additionalProfileInformation -> @activityLevel;
+	link @additionalProfileInformation -> @normalBedTime;
+	link @additionalProfileInformation -> @wakeTime;
+	
+	link @purposeCalorieConsumption -> @additionalProfileInformation;
+	link @purposeActivity -> @additionalProfileInformation;
+	
+	//--
+	
+	@furtherProcessingActivation:FurtherProcessingData{
+		actor=MANUFACTURER;
+		locations=MANUFACTURER_INFRASTRUCTURE;
+		kind="Use";
+		timing=EVENT_BASED;
+		scenario="Activating e-mail notifications.";
+	};
+	
+	@purposeActivation:Purpose{
+		description="Sending marketing information";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Deactivating E-mail notifications."];
+	};
+	
+	@legalBasisActivation:LegalBasis{
+		formOfAgreement=CONSENT;
+	};
+	
+	link @furtherProcessingActivation -> @purposeActivation;
+	link @purposeActivation -> @legalBasisActivation;
+	link @purposeActivation -> @mailaddress;
+	
+	//--
+	
+	@collectingDataSynchronization:CollectingData{
+		actor=MANUFACTURER;
+		locations=[WEBSITE, WEARABLE, APP, MANUFACTURER_INFRASTRUCTURE];
+		scenario="Synchronization of the wearables";
+	};
+	
+	@purposeTrends:Purpose{
+		description="To analyze usage and trends and to optimize or develop features and services";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Stop using Garmin services."];
+	};
+	
+	@legalBasisTrends:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="legitimate interest in resolving errors or syncing issues and providing quality product support";
+	};
+	
+	link @collectingDataSynchronization -> @purposeTrends;
+	link @purposeTrends -> @legalBasisTrends;
+	
+	@purposeResolve:Purpose{
+		description="To help identify and resolve errors or syncing issues.";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Stop using Garmin services."];
+	};
+	
+	@legalBasisResolve:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="legitimate interest in providing relevant and quality features and services";
+	};
+	
+	link @collectingDataSynchronization -> @purposeResolve;
+	link @purposeResolve -> @legalBasisResolve;
+	
+	@dataCategorySynchronization:DataCategory{
+		name="Synchronization data";
+	};
+	
+	@syncDate:DataEntry{
+		name="Synchronization Date";
+	};
+	
+	@syncTime:DataEntry{
+		name="Synchronization Time";
+	};
+	
+	@protocols:DataEntry{
+		name="Crash/ diagnostic logs";
+	};
+	
+	@position:DataEntry{
+		name="Geographic position";
+	};
+	
+	@networkInfo:DataEntry{
+		name="Information about the network e.g. WiFi or cellular";
+	};
+	
+	@deviceBatteryLevel:DataEntry{
+		name="Device Battery Level";
+	};
+	
+	@ipAddress:DataEntry{
+		name="IP Address";
+	};
+	
+	@analytics:DataEntry{
+		name="Analytics on on configuration and use of certain features (e.g., Garmin Pay, Connect IQ, music features, etc.).";
+	};
+	
+	link @dataCategorySynchronization -> @ipAddress;
+	link @dataCategorySynchronization -> @syncTime;
+	link @dataCategorySynchronization -> @syncDate;
+	link @dataCategorySynchronization -> @protocols;
+	link @dataCategorySynchronization -> @position;
+	link @dataCategorySynchronization -> @deviceInfo;
+	link @dataCategorySynchronization -> @networkInfo;
+	link @dataCategorySynchronization -> @deviceBatteryLevel;
+	link @dataCategorySynchronization -> @analytics;
+	
+	link @purposeResolve -> @dataCategorySynchronization;
+	link @purposeTrends -> @dataCategorySynchronization;
+	
+	//--
+	
+	@transmittingDataToManu:TransmittingData{
+		actor=USER;
+		locations=[APP, WEBSITE];
+		scenario="Transmitting data to the manufacturer.";
+		concreteRecipient="Garmin Ltd.";
+		recipientType=MANUFACTURER;
+		recipientLocations=[MANUFACTURER_INFRASTRUCTURE];
+		comissionedDataProcessing=false;
+		time=CONTINUOUS;
+		
+	};
+	
+	@purposeDataToManu:Purpose{
+		description="To analyze usage and trends and to optimize or develop features and services";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Stop using Garmin services."];
+	};
+	
+	@legalBasisDataToManu:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="Providing relevant and quality features and services ";
+	};
+	
+	link @transmittingDataToManu -> @purposeDataToManu;
+	link @purposeDataToManu -> @legalBasisDataToManu;
+	
+	@dataActivityTypes:DataCategory{
+		name="Activity types";
+	};
+	
+	@dataRunTraining:DataEntry{
+		name="Runs";
+	};
+	
+	@dataWalks:DataEntry{
+		name="Walks";
+	};
+	
+	@dataBikRide:DataEntry{
+		name="Bike rides";
+	};
+	
+	@dataSwims:DataEntry{
+		name="Swims";
+	};
+	
+	@dataHikes:DataEntry{
+		name="Hikes";
+	};
+	
+	@dataGymActivities:DataEntry{
+		name="Gym activities";
+	};
+	
+	link @dataActivityTypes -> @dataRunTraining;
+	link @dataActivityTypes -> @dataWalks;
+	link @dataActivityTypes -> @dataBikRide;
+	link @dataActivityTypes -> @dataSwims;
+	link @dataActivityTypes -> @dataHikes;
+	link @dataActivityTypes -> @dataGymActivities;
+	
+	
+	@dataActivityData:DataCategory{
+		name="Activity data";
+	};
+	
+	@dataSteps:DataEntry{
+		name="Steps";
+	};
+	@dataDistance:DataEntry{
+		name="Distance";
+	};
+	@dataPace:DataEntry{
+		name="Pace";
+	};
+	@dataActivityTime:DataEntry{
+		name="Activity time";
+	};
+	@dataCalories:DataEntry{
+		name="Calories burned";
+	};
+	@dataHeartRate:DataEntry{
+		name="Heart rate";
+	};
+	@dataSleep:DataEntry{
+		name="Sleep";
+	};
+	@dataLocation:DataEntry{
+		name="Location";
+	};
+	@dataGolfStats:DataEntry{
+		name="Golf stats";
+	};
+	@dataMenstrual:DataEntry{
+		name="Menstrual cycle information";
+	};
+	@dataHydration:DataEntry{
+		name="Hydration";
+	};
+	@dataMusicPlayed:DataEntry{
+		name="Music played";
+	};
+	
+	link @dataActivityData -> @dataSteps;
+	link @dataActivityData -> @dataDistance;
+	link @dataActivityData -> @dataPace;
+	link @dataActivityData -> @dataActivityTime;
+	link @dataActivityData -> @dataCalories;
+	link @dataActivityData -> @dataHeartRate;
+	link @dataActivityData -> @dataSleep;
+	link @dataActivityData -> @dataLocation;
+	link @dataActivityData -> @dataGolfStats;
+	link @dataActivityData -> @dataMenstrual;
+	link @dataActivityData -> @dataMusicPlayed;
+	
+	
+	link @purposeDataToManu -> @dataActivityData;
+	link @purposeDataToManu -> @dataActivityTypes;
+	
+	@purposeInsight:Purpose{
+		description="To let you be presented with an insights section in your account in which you will be provided with recommendations and motivational messages, information, and links to articles that may be of interest to you based upon this data, and a comparison of this data with aggregated activity data of others in the Garmin Connect community";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["You can withdraw at any time within your account"];
+	};
+	
+	link @transmittingDataToManu -> @purposeInsight;
+	link @purposeInsight -> @legalBasisInsight;
+	
+	@legalBasisInsight:LegalBasis{
+		legalBasisType=CONSENT;
+		description=" If you reside in the EEA, U.K., or Switzerland, the legal ground for processing this data for this purpose is your explicit consent.";
+	};
+	
+	link @purposeInsight -> @dataActivityData;
+	link @purposeInsight -> @dataActivityTypes;
+	
+	@purposeResearch:Purpose{
+		description="For research and development purposes internally to help us build better and more relevant products and services";
+		formOfAgreement=OPTIONAL;
+		revocationOptions=["You can withdraw at any time within your account"];
+	};
+	
+	link @transmittingDataToManu -> @purposeResearch;
+	link @purposeResearch -> @legalBasisInsight;
+	
+	@legalBasisResearch:LegalBasis{
+		legalBasisType=CONSENT;
+		description=" If you reside in the EEA, U.K., or Switzerland, the legal ground for processing this data for this purpose is your explicit consent.";
+	};
+	
+	link @purposeResearch -> @dataActivityData;
+	link @purposeResearch -> @dataActivityTypes;
+	
+	@purposeAnalysis:Purpose{
+		description="To enable you to analyze this data, identify any devices used to collect data during the activity, see your location on your activity course and segment maps, see your heart rate related metrics such as stress score, Body Battery energy monitoring, or pulse oximetry, track your fitness goals";
+		formOfAgreement=CONSENT;
+		revocationOptions=["You can withdraw at any time within your account"];
+	};
+	
+	link @transmittingDataToManu -> @purposeAnalysis;
+	link @purposeAnalysis -> @legalBasisAnalysis;
+	
+	@legalBasisAnalysis:LegalBasis{
+		legalBasisType=CONSENT;
+		description=" If you reside in the EEA, U.K., or Switzerland, the legal ground for processing this data for this purpose is your explicit consent.";
+	};
+	
+	link @purposeAnalysis -> @dataActivityData;
+	link @purposeAnalysis -> @dataActivityTypes;
+	
+	@purposeLocation:Purpose{
+		description="To provide you location-based services";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Deactiving location-based services."];
+	};
+	
+	link @transmittingDataToManu -> @purposeLocation;
+	link @purposeLocation -> @legalBasisAnalysis;
+	
+	@legalBasisLocation:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+		description="";
+	};
+	
+	link @purposeLocation -> @dataLocation;
+	
+	//--
+	
+	@transmittingDataToUser:TransmittingData{
+		actor=USER;
+		locations=[APP, WEBSITE];
+		scenario="Sharing your activity data with other Garmin users or groups.";
+		recipientType=PLATFORM_USER;
+		recipientLocations=[APP, WEBSITE];
+		comissionedDataProcessing=false;
+	};
+	
+	@purposeDataToUsers:Purpose{
+		description=" ";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["You control whether others can see your activity data by managing the privacy settings in your account. Your activity data is set to 'Private' by default."];
+	};
+	
+	link @transmittingDataToUser -> @purposeDataToUsers;
+	link @purposeDataToUsers -> @legalBasisAnalysis;
+	
+	@legalBasisDataToUser:LegalBasis{
+		legalBasisType=CONSENT;
+		description="If you reside in the EEA, U.K., or Switzerland, the legal ground for processing this data for this purpose is your explicit consent.";
+	};
+	
+	link @purposeDataToUsers -> @dataActivityData;
+	
+	//--
+	
+	@transmittingDataLiveTrack:TransmittingData{
+		actor=USER;
+		locations=[APP, WEBSITE];
+		scenario="Some Garmin devices include features, such as LiveTrack, that enable you to send a link to people of your choice that allows them to see the real-time location of your device.";
+		recipientType=EXTERNAL_FRIENDS;
+		recipientLocations=[WEBSITE];
+		comissionedDataProcessing=false;
+		time=CONTINUOUS;		
+	};
+
+	@purposeLiveTrack:Purpose{
+		description="To share livetracking information with other persons and to share the location with emergency contact.";
+		formOfAgreement=MANDATORY_FOR_FUNCTION;
+		revocationOptions=["Not using the service."];
+	};
+	
+	link @transmittingDataLiveTrack -> @purposeLiveTrack;
+	link @purposeLiveTrack -> @legalBasisLiveTrack;
+	link @purposeLiveTrack -> @dataLocation;
+	
+	
+	@legalBasisLiveTrack:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	//--
+	@transmittingDataFitnessPal:TransmittingData{
+		actor=USER;
+		locations=[WEBSITE, APP];
+		scenario="Authorize us to permit a third party, such as your wellness program provider, or an app, such as MyFitnessPal, Strava, or TrainingPeaks, to access your activity data in your Garmin account.";
+		recipientType=EXTERNAL_RECIPIENT;
+		recipientLocations=[THIRDPARTY_INFRASTRUCTURE];
+		comissionedDataProcessing=false;
+		protectionMeasurement="Aggregated and anonymized";
+		time=CONTINUOUS;
+	};
+	
+	@purposeFitnessPal:Purpose{
+		description="Sharing data with third party apps.";
+		formOfAgreement=OPTIONAL;
+		revocationOptions=["You can choose to stop sharing data with the third-party app, platform, or service provider at any time within your Garmin account."];
+	};
+	
+	@legalBasisFitnessPal:LegalBasis{
+		legalBasisType=CONSENT;
+	};
+	
+	link @transmittingDataFitnessPal -> @purposeFitnessPal;
+	link @purposeFitnessPal -> @legalBasisFitnessPal;
+	link @purposeFitnessPal -> @dataActivityData;
+	
+	//-- 
+	
+	@collectingDataMonitoring:CollectingData{
+		actor=MANUFACTURER;
+		locations=[APP, WEARABLE, WEBSITE];
+		scenario="We collect data from users about their usage of our products, services, websites, and apps.";
+	};
+	
+	@purposeImproveQuality:Purpose{
+		description="To improve the quality, security, and functionality of our products, services, websites, or apps";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Stop using Garmin's products and services."];
+	};
+	
+	@legalBasisImproveQuality:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="Legitimate interest in understanding how our customers interact with our products, services, websites, and apps so we can enhance user experience and functionality.";
+	};
+	
+	link @collectingDataMonitoring -> @purposeImproveQuality;
+	link @purposeImproveQuality -> @legalBasisImproveQuality;
+	link @purposeImproveQuality -> @dataMonitoring;
+	
+	@dataMonitoring:DataCategory{
+		name="Monitoring data";
+	};
+	@dataUsage:DataEntry{
+		name="Usage of products, services, websites, and apps.";
+	};
+	@dataServerAccess:DataEntry{
+		name="Date and time of access to Garmin's Servers";
+	};
+	@dataVersion:DataEntry{
+		name="Software or Firmware version";
+	};
+	@dataLanguageSetting:DataEntry{
+		name="Language Setting";
+	};
+	@dataDownloads:DataEntry{
+		name="Information and files downloaded.";
+	};
+	
+	@dataUserBehavior:DataCategory{
+		name="User behavior";
+	};
+	@dataFeatureUse:DataEntry{
+		name="The Feature used";
+	};
+	@dataFrequencyOfuse:DataEntry{
+		name="Frequency of features used";
+	};
+	link @dataUserBehavior -> @dataFeatureUse;
+	link @dataUserBehavior -> @dataFrequencyOfuse;
+	
+	@dataDeviceState:DataEntry{
+		name="Device state information";
+	};
+	@dataDeviceModel:DataEntry{
+		name="Device model";
+	};
+	@dataHardware:DataEntry{
+		name="Hardware and operating system information";
+	};
+	
+	link @dataMonitoring -> @dataUsage;
+	link @dataMonitoring -> @dataServerAccess;
+	link @dataMonitoring -> @dataVersion;
+	link @dataMonitoring -> @dataLanguageSetting;
+	link @dataMonitoring -> @dataDownloads;
+	link @dataMonitoring -> @dataUserBehavior;
+	link @dataMonitoring -> @dataDeviceModel;
+	link @dataMonitoring -> @dataDeviceState;
+	link @dataMonitoring -> @dataHardware;
+	
+	@purposeDevelop:Purpose{
+		description="To develop and market products and features that best serve you and other users";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Stop using Garmin's products and services."];
+	};
+	
+	@legalBasisDevelop:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="Legitimate interest in understanding how our customers interact with our products, services, websites, and apps so we can enhance user experience and functionality.";
+	};
+	
+	link @collectingDataMonitoring -> @purposeDevelop;
+	link @purposeDevelop -> @legalBasisDevelop;
+	link @purposeDevelop -> @dataMonitoring;
+	
+	@purposeIdentify:Purpose{
+		description="To help identify and fix stability issues and other usability problems as quickly as possible.";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Stop using Garmin's products and services."];
+	};
+	
+	@legalBasisIdentify:LegalBasis{
+		legalBasisType=LEGIMITATE_INTEREST;
+		description="Legitimate interest in understanding how our customers interact with our products, services, websites, and apps so we can enhance user experience and functionality.";
+	};
+	
+	link @collectingDataMonitoring -> @purposeIdentify;
+	link @purposeIdentify -> @legalBasisIdentify;
+	link @purposeIdentify -> @dataMonitoring;
+	
+	//--
+	
+	@storingData:StoringData{
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Creating a Garmin Account, adding personal data to your account or profile.";
+		storageLocation="U.S., U.K., and/or Australia";
+		storeUntilEvent="Until account is inactive or deletion.";
+	};
+	
+	@purposeStoring:Purpose{
+		description="To be able to provide products, apps and services.";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Deleting account."];
+	};
+	
+	@legalBasisStoring:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	@personalData:DataCategory {
+		name="Personal data";
+	};
+	
+	link @storingData -> @purposeStoring;
+	link @purposeStoring -> @legalBasisStoring;	
+	link @purposeStoring -> @personalData;	
+	
+	//-- 
+	
+	@transmittingDataToCountries:TransmittingData{
+		actor=MANUFACTURER;
+		locations=[MANUFACTURER_INFRASTRUCTURE];
+		scenario="Creating a Garmin Account, adding personal data to your account or profile.";
+		concreteRecipient="Garmin Companies";
+		recipientType="THIRDPARTY_INFRASTRUCTURE";
+		comissionedDataProcessing=true;
+		time=CONTINUOUS;
+		guaranteesForRegions="View Garmin's Data Privacy Framework Notice.";
+	};
+	
+	@recipientCountry1:EEACountryRecipient{
+		countries=["U.K."];
+	};
+	@recipientOtherCountry1:OtherCountryRecipient{
+		countries=["U.S. "];
+	};
+	
+	link @transmittingDataToCountries -> @recipientCountry1;
+	link @transmittingDataToCountries -> @recipientOtherCountry1;
+
+	@purposeToCountries:Purpose{
+		description="To be able to provide products, apps and services.";
+		formOfAgreement=MANDATORY;
+		revocationOptions=["Deleting account."];
+	};
+	
+	@legalBasisToCountries:LegalBasis{
+		legalBasisType=CONTRACTUAL_LIABILITY;
+	};
+	
+	link @transmittingDataToCountries -> @purposeToCountries;
+	link @purposeToCountries -> @legalBasisToCountries;	
+	link @purposeToCountries -> @personalData;	
+	
+}
